@@ -2,22 +2,22 @@
 	{
 		"category" : "video" , 
 		"title" : "IU - Celebrity (arr. by Youngso Kim)" , 
-		"content" : "" , 
 		"image" : "images/pic02.jpg" , 
-		"date" : "June 1, 2021"
+		"date" : "June 1, 2021" , 
+		"href" : "video/iu_celebrity.html"
 	} , 
 	{
 		"category" : "video" , 
 		"title" : "(電影《月老》主題曲) 韋禮安 WeiBird - 如果可以 Red Scarf" , 
-		"content" : "" , 
 		"image" : "images/pic02.jpg" , 
-		"date" : "January 1, 2022"
+		"date" : "January 1, 2022" , 
+		"href" : "video/韋禮安_如果可以.html"
 	} , 
 	{
 		"category" : "tab" , 
 		"title" : "[吉他譜] (電影《月老》主題曲) 韋禮安 WeiBird - 如果可以 Red Scarf" , 
-		"content" : "" , 
 		"image" : "images/pic02.jpg" , 
-		"date" : "January 1, 2022"
+		"date" : "January 1, 2022" , 
+		"href" : "tab/韋禮安_如果可以.html"
 	}
 ]

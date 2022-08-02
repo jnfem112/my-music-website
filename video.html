@@ -31,14 +31,14 @@
 					<li><a href="index.html">主頁</a></li>
 					<li class="active"><a href="#">影片</a></li>
 					<li><a href="tab.html">樂譜</a></li>
-					<li><a href="post.html">文章</a></li>
+					<!-- <li><a href="post.html">文章</a></li> -->
 				</ul>
 				<ul class="icons">
-					<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-					<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+					<li><a target="_blank" href="https://www.facebook.com/profile.php?id=100001087827668" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+					<li><a target="_blank" href="https://www.instagram.com/jnfem112/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 					<!-- <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li> -->
-					<li><a href="#" class="icon brands fa-youtube"><span class="label">YouTube</span></a></li>
-					<li><a href="#" class="icon fa-solid fa-envelope"><span class="label">Mail</span></a></li>
+					<li><a target="_blank" href="https://www.youtube.com/channel/UCLvYavMioJx2j9HHWynHsKA" class="icon brands fa-youtube"><span class="label">YouTube</span></a></li>
+					<li><a target="_blank" href="jnfem112@gmail.com" class="icon fa-solid fa-envelope"><span class="label">Mail</span></a></li>
 					<!-- <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li> -->
 				</ul>
 			</nav>
@@ -143,7 +143,7 @@
 						</header>
 						<a href="#" class="image fit"><img src="${articles[i]["image"]}" alt="" /></a>
 						<ul class="actions special">
-							<li><a href="#" class="button">View</a></li>
+							<li><a href="${articles[i]["href"]}" class="button">View</a></li>
 						</ul>
 					</article>
 				`
@@ -151,70 +151,35 @@
 				count++;
 			}
 
-			if (count % 2 == 1)
-				html += "<article></article>"
+			if ($(window).width() > 786 && count % 2 == 1)
+				html += "<article></article>";
 
 			$("#posts").html(html);
 
 			// update pagination
-			let start_page , end_page;
-			if (articles.length == 0)
-			{
-				start_page = end_page = 1;
-			}
-			else if (current_page - 2 < 1)
-			{
-				start_page = 1;
-				end_page = (number_of_page > 5)? 5 : number_of_page;
-			}
-			else if (current_page + 2 > number_of_page)
-			{
-				end_page = number_of_page;
-				start_page = (number_of_page - 4 > 0)? number_of_page - 4 : 1;
-			}
-			else
-			{
-				start_page = current_page - 2;
-				end_page = current_page + 2;
-			}
+			html = "";
 
-			html = `
-				<a href="#posts" class="previous" id="first_page">First</a>
-				<a href="#posts" class="previous" id="previous_page">Previous</a>
-			`;
-
-			for (let page = start_page ; page <= end_page ; page++)
+			if (current_page > 1)
 				html += `
-					<a href="#posts" class="page ${(page == current_page)? "active" : ""}">${page}</a>
+					<a href="#posts" class="previous" id="previous_page">Prev</a>
 				`;
 
-			html += `
-				<!-- <span class="extra">&hellip;</span> -->
-				<a href="#posts" class="next" id="next_page">Next</a>
-				<a href="#posts" class="next" id="last_page">Last</a>
-			`;
+			if (current_page < number_of_page)
+				html += `
+					<a href="#posts" class="next" id="next_page">Next</a>
+				`;
 
 			$("#pagination").html(html);
 
-			$(".page").click(function() {
-				update_articles_and_pagination(articles , parseInt($(this).html()) , article_per_page);
-			});
-			
-			$("#first_page").click(function() {
-				update_articles_and_pagination(articles , 1 , article_per_page);
-			});
-			
-			$("#previous_page").click(function() {
-				update_articles_and_pagination(articles , Math.max(1 , current_page - 1) , article_per_page);
-			});
-			
-			$("#next_page").click(function() {
-				update_articles_and_pagination(articles , Math.min(number_of_page , current_page + 1) , article_per_page);
-			});
-			
-			$("#last_page").click(function() {
-				update_articles_and_pagination(articles , number_of_page , article_per_page);
-			});
+			if (current_page > 1)
+				$("#previous_page").click(function() {
+					update_articles_and_pagination(articles , current_page - 1 , article_per_page);
+				});
+
+			if (current_page < number_of_page)
+				$("#next_page").click(function() {
+					update_articles_and_pagination(articles , current_page + 1 , article_per_page);
+				});
 		}
 
 		$.getJSON("article.json" , function(data) {
@@ -225,6 +190,23 @@
 
 			let article_per_page = 10;
 			update_articles_and_pagination(articles , 1 , article_per_page);
+		});
+
+		$(window).resize(function() {
+			if ($(window).width() > 786)
+			{
+				if ($("#posts article").length % 2 == 1)
+				{
+					let html = $("#posts").html();
+					html += "<article></article>";
+					$("#posts").html(html);
+				}
+			}
+			else
+			{
+				if (!$("#posts article").last().html())
+					$("#posts article").last().remove();
+			}
 		});
 	});
 </script>
